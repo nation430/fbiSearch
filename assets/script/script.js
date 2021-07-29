@@ -1,18 +1,20 @@
-
-
-let searchbtn = document.getElementById('searchBtn');
-
-searchbtn.addEventListener('click', function (e) {
+"use strict"
+const searchbtn = document.getElementById('searchBtn');
+let inputText = document.getElementById('searchBar').value;
+const url = "./assets/script/db.json";
+function crimeSearch(e) {
     e.preventDefault();
-    let inputText = document.getElementById('searchBar').value;
-
-    if(inputText != ""){
-        let url = 'db.json';
-        console.log("drink", url);
-
-        console.log(inputText);
+    if (inputText != "") {
+        fetch(url).then(res => res.json()).then(response => {
+            response.crime.forEach(item => {
+                if (inputText.toLowerCase() == item.firstname || inputText.toLowerCase() == item.lastname) {
+                    console.log(item);
+                    return;
+                }
+            });
+        });
     }
-
     console.log('Please fill in a name')
+}
 
-})
+searchbtn.addEventListener('click', crimeSearch);
